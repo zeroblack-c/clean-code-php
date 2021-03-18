@@ -49,22 +49,21 @@
 
 ## Introduction
 
-Software engineering principles, from Robert C. Martin's book
+Prinsip Software engineering, dari boku Robert C. Martin's
 [*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882),
-adapted for PHP. This is not a style guide. It's a guide to producing
-readable, reusable, and refactorable software in PHP.
+diadaptasi untuk PHP. ini bukan sebuah style guide. ini adalah guide/panduan untuk membuat software yang mudah di baca (readable), dapat di gunakan kembali (reusable), dan dapat di refactor (refactorable)
 
-Not every principle herein has to be strictly followed, and even fewer will be universally
-agreed upon. These are guidelines and nothing more, but they are ones codified over many
-years of collective experience by the authors of *Clean Code*.
+Tidak setiap prinsip di sini harus diikuti dengan ketat, dan bahkan lebih sedikit lagi yang secara universal
+disepakati. Ini adalah pedoman dan tidak lebih, tetapi mereka adalah pedoman yang dikodifikasi lebih banyak
+bertahun-tahun pengalaman kolektif oleh penulis * Clean Bersih *.
 
-Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript).
+Terinspirasi dari [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript).
 
-Although many developers still use PHP 5, most of the examples in this article only work with PHP 7.1+.
+Meskipun banyak developers masih menggunakan PHP 5, sebagian besar contoh dalam artikel ini hanya berfungsi dengan PHP 7.1+.
 
 ## Variables
 
-### Use meaningful and pronounceable variable names
+### Gunakan nama variable yang bermakna dan mudah di baca
 
 **Bad:**
 
@@ -84,7 +83,7 @@ $currentDate = $moment->format('y-m-d');
 
 **[⬆ back to top](#table-of-contents)**
 
-### Use the same vocabulary for the same type of variable
+### Gunakan kosakata yang sama untuk jenis variable yang sama
 
 **Bad:**
 
@@ -107,19 +106,15 @@ getUser();
 
 **[⬆ back to top](#table-of-contents)**
 
-### Use searchable names (part 1)
+### Gunakan nama yang mudah di cari (part 1)
 
-We will read more code than we will ever write. It's important that the code we do write is
-readable and searchable. By *not* naming variables that end up being meaningful for
-understanding our program, we hurt our readers.
-Make your names searchable.
-
+Kita akan membaca lebih banyak kode dari pada yang pernah kita tulis. Sangat penting bahwa kode yang kita tulis mudah dibaca dan dicari.
 **Bad:**
 
 ```php
 declare(strict_types=1);
 
-// What the heck is 448 for?
+// Untuk apa ini 448?
 $result = $serializer->serialize($data, 448);
 ```
 
@@ -131,7 +126,7 @@ declare(strict_types=1);
 $json = $serializer->serialize($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ```
 
-### Use searchable names (part 2)
+### Gunakan nama yang mudah di cari (part 2)
 
 **Bad:**
 
@@ -140,16 +135,16 @@ declare(strict_types=1);
 
 class User
 {
-    // What the heck is 7 for?
+    // Untuk apa ini 7 ?
     public $access = 7;
 }
 
-// What the heck is 4 for?
+// Untuk apa ini 4 ?
 if ($user->access & 4) {
     // ...
 }
 
-// What's going on here?
+// Apa yang terjadi di sini?
 $user->access ^= 2;
 ```
 
@@ -168,21 +163,21 @@ class User
 
     public const ACCESS_DELETE = 8;
 
-    // User as default can read, create and update something
+    // User secara default dapat membaca, membuat and mengupdate sesuatu di sini
     public $access = self::ACCESS_READ | self::ACCESS_CREATE | self::ACCESS_UPDATE;
 }
 
 if ($user->access & User::ACCESS_UPDATE) {
-    // do edit ...
+    // lakukan edit ...
 }
 
-// Deny access rights to create something
+// Tolak/Deny access untuk membuat sesuatu
 $user->access ^= User::ACCESS_CREATE;
 ```
 
 **[⬆ back to top](#table-of-contents)**
 
-### Use explanatory variables
+### Gunakan penjelasan variable
 
 **Bad:**
 
@@ -198,7 +193,7 @@ saveCityZipCode($matches[1], $matches[2]);
 
 **Not bad:**
 
-It's better, but we are still heavily dependent on regex.
+Ini lebih baik, tetapi kita masih sangat bergantung pada regex.
 
 ```php
 declare(strict_types=1);
@@ -213,7 +208,7 @@ saveCityZipCode($city, $zipCode);
 
 **Good:**
 
-Decrease dependence on regex by naming subpatterns.
+Kurangi ketergantungan pada regex dengan memberi nama subpola.
 
 ```php
 declare(strict_types=1);
@@ -227,10 +222,10 @@ saveCityZipCode($matches['city'], $matches['zipCode']);
 
 **[⬆ back to top](#table-of-contents)**
 
-### Avoid nesting too deeply and return early (part 1)
+### Hindari nesting terlalu dalam dan return sebelum waktunya (part 1)
 
-Too many if-else statements can make your code hard to follow. Explicit is better
-than implicit.
+Terlalu banyak pernyataan if-else dapat membuat kode Anda sulit diikuti. Eksplisit lebih baik
+daripada implisit.
 
 **Bad:**
 
@@ -276,7 +271,7 @@ function isShopOpen(string $day): bool
 
 **[⬆ back to top](#table-of-contents)**
 
-### Avoid nesting too deeply and return early (part 2)
+### Hindari nesting terlalu dalam and return sebelum waktunya (part 2)
 
 **Bad:**
 
@@ -319,10 +314,10 @@ function fibonacci(int $n): int
 
 **[⬆ back to top](#table-of-contents)**
 
-### Avoid Mental Mapping
+### Hindari Mental Mapping
 
-Don’t force the reader of your code to translate what the variable means.
-Explicit is better than implicit.
+Jangan memaksa pembaca kode Anda untuk menerjemahkan arti variabel.
+Eksplisit lebih baik daripada implisit.
 
 **Bad:**
 
@@ -336,7 +331,7 @@ for ($i = 0; $i < count($l); $i++) {
     // ...
     // ...
     // ...
-    // Wait, what is `$li` for again?
+    // Bentar, Untuk apa lagi ini `$li`?
     dispatch($li);
 }
 ```
@@ -360,10 +355,10 @@ foreach ($locations as $location) {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Don't add unneeded context
+### Jangan menambahkan konteks yang tidak dibutuhkan
 
-If your class/object name tells you something, don't repeat that in your
-variable name.
+Jika nama class/object Anda memberi tahu Anda sesuatu, jangan ulangi itu di
+nama variabel.
 
 **Bad:**
 
